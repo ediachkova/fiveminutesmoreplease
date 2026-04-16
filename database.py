@@ -1,4 +1,4 @@
-import sqlite3
+mport sqlite3
 import os
 from datetime import datetime
 import pytz
@@ -17,6 +17,9 @@ class Database:
         return conn
 
     def init(self):
+        db_dir = os.path.dirname(self.path)
+        if db_dir:
+            os.makedirs(db_dir, exist_ok=True)
         with self._conn() as conn:
             conn.executescript("""
                 CREATE TABLE IF NOT EXISTS users (
@@ -100,3 +103,4 @@ class Database:
             elif s == "in_progress":
                 stats["in_progress"] += cnt
         return stats
+
